@@ -1,5 +1,5 @@
 ---
-title: "Mathematics of over diagnosis"
+title: "Clean up your data screening process with reporteR"
 author: "Anne Helby Petersen and Claus Thorn Ekstrøm<br>UCPH Biostatistics"
 date: 'December 3rd, 2020'
 output:
@@ -17,6 +17,13 @@ output:
 
 class: animated, fadeIn
 layout: true
+
+---
+
+
+background-image: url(pics/title.png)
+background-size: 100%
+
 
 ---
 
@@ -103,7 +110,7 @@ What **didn't** we check?
 ---
 
 
-# Design idea for dataMaid
+# Design idea for dataReporter
 
 
 *   Aid researchers in identifying problems that we didn't consider.
@@ -111,43 +118,74 @@ What **didn't** we check?
 *   Enable collaborations with non-statisticians.
 
 
-dataMaid is **not** 
+dataReporter is **not** 
 
 *   a cleaner
 *   a formal rule validator
 
-Documentation to be **read** and **evaluated** by a human.
+Documentation to be **read** and **assessed** by a human.
 
 ---
 
+.footnote[
+
+# Data on US presidents
 
 
-# Three steps of data quality assessment
-
-Loops through the columns of a `data.frame` and performs 3 steps:
-
-1.  **Summarize**: Simple summary statistics – what’s in the
-variable?
-2.  **Visualize**: Look at the distribution of the variable – is the distribution as expected?
-3.  **Check**: Look for specific problems – is the variable valid?
-
-What summaries/visualization/checks are relevant depends on the
-*class* of the variable.
-
----
-
-# Summarize
-
-```{r echo=FALSE}
-knitr::include_graphics("pics/dm1.png")
+```{r eval=TRUE}
+head(dataReporter::presidentData, 5)
 ```
 
+]
+
 
 ---
 
-# Visualize
+# Let's see it in action
 
-```{r echo=FALSE}
-knitr::include_graphics("pics/dm2.png")
+```{r eval=FALSE}
+# Install package
+devtools::install_github("ekstroem/dataReporter") 
+
+# Get example data
+data(presidentData)
+
+# Main function
+makeDataReport(presidentData) # Produces report
+
+# When data is screened and "clear" for use
+makeCodebook(presidentData) # Produces condensed codebook
 ```
+
+---
+
+background-image: url(pics/dr-1.png)
+background-size: 80%
+
+---
+
+background-image: url(pics/dr-2.png)
+background-size: 90%
+
+---
+
+background-image: url(pics/dr-3.png)
+background-size: 85%
+
+---
+
+background-image: url(pics/dr-4.png)
+background-size: 100%
+
+---
+
+background-image: url(pics/dr-5.png)
+background-size: 100%
+
+---
+
+background-image: url(pics/dr-6.png)
+background-size: 82%
+
+## Codebook result
 

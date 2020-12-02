@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Mathematics of over diagnosis</title>
+    <title>Clean up your data screening process with reporteR</title>
     <meta charset="utf-8" />
     <meta name="author" content="Anne Helby Petersen and Claus Thorn Ekstrøm UCPH Biostatistics" />
     <script src="libs/header-attrs/header-attrs.js"></script>
@@ -14,7 +14,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Mathematics of over diagnosis
+# Clean up your data screening process with reporteR
 ### Anne Helby Petersen and Claus Thorn Ekstrøm<br>UCPH Biostatistics
 ### December 3rd, 2020
 
@@ -23,6 +23,13 @@ class: center, middle, inverse, title-slide
 
 class: animated, fadeIn
 layout: true
+
+---
+
+
+background-image: url(pics/title.png)
+background-size: 100%
+
 
 ---
 
@@ -45,10 +52,10 @@ class: center
 
 ```
 ##   day1 day2 day3
-## 1   13   NA   NA
-## 2   11   NA   99
-## 3   17    1   40
-## 4    2    3   10
+## 1    2   NA   NA
+## 2   20   NA   99
+## 3   16   21   40
+## 4    6    9   13
 ```
 
 ---
@@ -60,12 +67,12 @@ class: center
 
 ```
 ##   day1 day2 day3
-## 1   13   NA   NA
-## 2   11   NA   99
-## 3   17    1   40
-## 4    2    3   10
-## 5    8   15    9
-## 6    5   88    7
+## 1    2   NA   NA
+## 2   20   NA   99
+## 3   16   21   40
+## 4    6    9   13
+## 5    9   20    6
+## 6   18   88    4
 ```
 
 ---
@@ -102,7 +109,7 @@ What **didn't** we check?
 ---
 
 
-# Design idea for dataMaid
+# Design idea for dataReporter
 
 
 *   Aid researchers in identifying problems that we didn't consider.
@@ -110,41 +117,99 @@ What **didn't** we check?
 *   Enable collaborations with non-statisticians.
 
 
-dataMaid is **not** 
+dataReporter is **not** 
 
 *   a cleaner
 *   a formal rule validator
 
-Documentation to be **read** and **evaluated** by a human.
+Documentation to be **read** and **assessed** by a human.
 
 ---
 
+.footnote[
+
+# Data on US presidents
 
 
-# Three steps of data quality assessment
 
-Loops through the columns of a `data.frame` and performs 3 steps:
+```r
+head(dataReporter::presidentData, 5)
+```
 
-1.  **Summarize**: Simple summary statistics – what’s in the
-variable?
-2.  **Visualize**: Look at the distribution of the variable – is the distribution as expected?
-3.  **Check**: Look for specific problems – is the variable valid?
+```
+##     lastName firstName orderOfPresidency   birthday  stateOfBirth
+## 1 Washington    George                 1 1732-02-22      Virginia
+## 2      Adams      John                 2 1735-10-30 Massachusetts
+## 3  Jefferson    Thomas                 3 1743-04-13      Virginia
+## 4    Madison     James                 4 1751-03-16      Virginia
+## 5     Monroe     James                 5 1758-04-28      Virginia
+##   assassinationAttempt  sex ethnicity presidencyYears ageAtInauguration
+## 1                    0 Male Caucasian               7                57
+## 2                    0 Male Caucasian               3                61
+## 3                    0 Male Caucasian               8                57
+## 4                    0 Male Caucasian               8                57
+## 5                    0 Male Caucasian               8                58
+##   favoriteNumber
+## 1    3+0.000000i
+## 2    4+0.000000i
+## 3    0+1.414214i
+## 4   10+0.000000i
+## 5    3+0.000000i
+```
 
-What summaries/visualization/checks are relevant depends on the
-*class* of the variable.
+]
+
 
 ---
 
-# Summarize
+# Let's see it in action
 
-&lt;img src="pics/dm1.png" width="3664" /&gt;
 
+```r
+# Install package
+devtools::install_github("ekstroem/dataReporter") 
+
+# Get example data
+data(presidentData)
+
+# Main function
+makeDataReport(presidentData) # Produces report
+
+# When data is screened and "clear" for use
+makeCodebook(presidentData) # Produces condensed codebook
+```
 
 ---
 
-# Visualize
+background-image: url(pics/dr-1.png)
+background-size: 80%
 
-&lt;img src="pics/dm2.png" width="3664" /&gt;
+---
+
+background-image: url(pics/dr-2.png)
+background-size: 90%
+
+---
+
+background-image: url(pics/dr-3.png)
+background-size: 85%
+
+---
+
+background-image: url(pics/dr-4.png)
+background-size: 100%
+
+---
+
+background-image: url(pics/dr-5.png)
+background-size: 100%
+
+---
+
+background-image: url(pics/dr-6.png)
+background-size: 82%
+
+## Codebook result
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
