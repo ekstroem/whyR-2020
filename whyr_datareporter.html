@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Clean up your data screening process with reporteR</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Anne Helby Petersen and Claus Thorn Ekstrøm UCPH Biostatistics" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link rel="stylesheet" href="animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="ku.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Clean up your data screening process with reporteR
+### Anne Helby Petersen and Claus Thorn Ekstrøm<br>UCPH Biostatistics
+### December 3rd, 2020
+
+---
+
+
+class: animated, fadeIn
+layout: true
+
+---
+
+
+background-image: url(pics/title.png)
+background-size: 100%
+
+
+---
+
+
+background-image: url(pics/manbeer.jpg)
+background-size: 100%
+class: middle, center
+
+# The RESCueH project
+
+
+
+
+---
+
+class: center
+
+# Timeline follow back
+
+
+```
+##   day1 day2 day3
+## 1   23   NA   NA
+## 2   24   NA   99
+## 3    8   11   40
+## 4   15   16    4
+```
+
+---
+
+class: center
+
+# Timeline follow back
+
+
+```
+##   day1 day2 day3
+## 1   23   NA   NA
+## 2   24   NA   99
+## 3    8   11   40
+## 4   15   16    4
+## 5    4    5   10
+## 6   14   88    5
+```
+
+---
+
+class: center
+
+# Monthly Alcohol units
+
+
+
+
+
+![](whyr_datareporter_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+
+---
+
+
+background-image: url(pics/flower.png)
+background-size: 60%
+class: center, middle
+
+
+---
+
+# Design idea for dataReporter
+
+
+*   Aid researchers in identifying problems that we didn't consider.
+*   Ensure that everything you checked (and **didn't check**) is documented.
+*   Enable **collaborations** with non-statisticians.
+*   Encourage reproducible research
+
+
+dataReporter is **not** 
+
+*   a cleaner
+*   a formal rule validator
+
+Documentation to be **read** and **assessed** by a human.
+
+---
+
+.footnote[
+
+# Data on US presidents
+
+
+
+```r
+head(dataReporter::presidentData, 5)
+```
+
+```
+##     lastName firstName orderOfPresidency   birthday  stateOfBirth
+## 1 Washington    George                 1 1732-02-22      Virginia
+## 2      Adams      John                 2 1735-10-30 Massachusetts
+## 3  Jefferson    Thomas                 3 1743-04-13      Virginia
+## 4    Madison     James                 4 1751-03-16      Virginia
+## 5     Monroe     James                 5 1758-04-28      Virginia
+##   assassinationAttempt  sex ethnicity presidencyYears ageAtInauguration
+## 1                    0 Male Caucasian               7                57
+## 2                    0 Male Caucasian               3                61
+## 3                    0 Male Caucasian               8                57
+## 4                    0 Male Caucasian               8                57
+## 5                    0 Male Caucasian               8                58
+##   favoriteNumber
+## 1    3+0.000000i
+## 2    4+0.000000i
+## 3    0+1.414214i
+## 4   10+0.000000i
+## 5    3+0.000000i
+```
+
+]
+
+
+---
+
+# Let's see it in action
+
+
+```r
+# Install package
+devtools::install_github("ekstroem/dataReporter") 
+
+# Load package
+library(dataReporter)
+
+# Get example data
+data(presidentData)
+
+# Main function
+makeDataReport(presidentData) # Produces report
+
+# When data is screened and "clear" for use
+makeCodebook(presidentData) # Produces condensed codebook
+```
+
+---
+
+background-image: url(pics/dr-1.png)
+background-size: 80%
+
+---
+
+background-image: url(pics/dr-2.png)
+background-size: 90%
+
+---
+
+background-image: url(pics/dr-3.png)
+background-size: 85%
+
+---
+
+background-image: url(pics/dr-5.png)
+background-size: 100%
+
+---
+
+background-image: url(pics/dr-4.png)
+background-size: 100%
+
+---
+
+background-image: url(pics/dr-6.png)
+background-size: 82%
+
+
+
+.caption-right-vertical[makeCodebook() result]
+
+
+---
+
+background-image: url(pics/helper.png)
+background-size: 100%
+
+---
+
+background-image: url(pics/flow.png)
+background-size: 90%
+
+---
+
+# Pre-checking 
+
+
+
+- Check if a variable is eligible for being described/checked further in the report
+- Don't want to describe/check:
+    1. Keys (IDs)
+    2. Singular variables (same value for all)
+    3. Variable classes that are not supported by `dataReporter`
+    4. ...
+    
+---
+
+background-image: url(pics/dr-3.png)
+background-size: 85%
+
+---
+
+background-image: url(pics/flow.png)
+background-size: 90%
+
+---
+
+# Three steps of data quality assesment
+
+1. **Summarize**: Simple summary statistics - what's in the variable?
+2. **Visualize**: Look at the distribution of the variable - is the distribution as expected?
+3. **Check**: Look for specific problems - is the variable valid?
+--
+
+
+What summaries/visualization/checks are relevant depends on the **class** of the variable.
+
+---
+
+# Looking at `presidencyYears`
+
+
+```r
+presidentData$presidencyYears
+```
+
+```
+##  [1]   7   3   8   8   8   4   8   4   0   3   4   1   2   4   4   4   3   8   4
+## [20]   0   3   4   4   4   4   7   4   8   2   5   4  12   7   8   2   5   5   2
+## [39]   4   8   4   8   8 Inf  NA  NA
+```
+ 
+--
+
+
+```r
+class(presidentData$presidencyYears)
+```
+
+```
+## [1] "numeric"
+```
+
+---
+
+# Following the flow of `presidencyYears`
+
+Note: Precheck passed - not key/singleton/unsupported
+
+--
+
+&lt;img src="pics/presidencyyears1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Following the flow of `presidencyYears`
+
+Summarize
+
+&lt;img src="pics/presidencyyears2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Following the flow of `presidencyYears`
+
+Visualize
+
+&lt;img src="pics/presidencyyears3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Following the flow of `presidencyYears`
+
+Check
+
+&lt;img src="pics/presidencyyears4.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- # Variable classes --&gt;
+
+&lt;!-- `dataReporter` currently supports seven variable classes: --&gt;
+
+&lt;!-- - **C** `character`  --&gt;
+&lt;!-- - **F** `factor` --&gt;
+&lt;!-- - **I** `integer`  --&gt;
+&lt;!-- - **L** `labelled` (and `haven_labelled`) --&gt;
+&lt;!-- - **B** `logical` (Boolean) --&gt;
+&lt;!-- - **N** `numeric` --&gt;
+&lt;!-- - **D** `Date` --&gt;
+
+
+
+&lt;!-- The variables should be organized in a `data.frame`, `tibble` or `matrix`.  --&gt;
+
+
+---
+
+# Built-in summary functions (1/2)
+
+```r
+allSummaryFunctions()
+```
+--
+
+```r
+-------------------------------------------------------------------------
+name           description                     classes                   
+-------------- ------------------------------- --------------------------
+centralValue   Compute median for numeric      character, Date, factor,  
+               variables, mode for             integer, labelled,        
+               categorical variables           haven_labelled, logical,  
+                                               numeric                   
+
+countMissing   Compute proportion of missing   character, Date, factor,  
+               observations                    integer, labelled,        
+                                               haven_labelled, logical,  
+                                               numeric                   
+
+minMax         Find minimum and maximum        integer, numeric, Date    
+               values                                                    
+
+quartiles      Compute 1st and 3rd quartiles   Date, integer, numeric    
+
+refCat         Find reference level            factor                    
+
+uniqueValues   Count number of unique values   character, Date, factor,  
+                                               integer, labelled,        
+                                               haven_labelled, logical,  
+                                               numeric                   
+
+variableType   Data class of variable          character, Date, factor,  
+                                               integer, labelled,        
+                                               haven_labelled, logical,  
+                                               numeric                   
+-------------------------------------------------------------------------
+```
+
+
+---
+
+# Built-in summary functions (2/2)
+
+
+```r
+-------------------------------------------------------------------------
+name           description                     classes                   
+-------------- ------------------------------- --------------------------
+quartiles      Compute 1st and 3rd quartiles   Date, integer, numeric    
+
+refCat         Find reference level            factor                    
+
+uniqueValues   Count number of unique values   character, Date, factor,  
+                                               integer, labelled,        
+                                               haven_labelled, logical,  
+                                               numeric                   
+
+variableType   Data class of variable          character, Date, factor,  
+                                               integer, labelled,        
+                                               haven_labelled, logical,  
+                                               numeric                   
+-------------------------------------------------------------------------
+```
+
+---
+
+&lt;!-- # Finding documentation --&gt;
+
+&lt;!-- ```{r, eval = FALSE} --&gt;
+&lt;!-- ?refCat --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- ```{r, echo = FALSE, fig.align="center", out.height = "70%"} --&gt;
+&lt;!-- knitr::include_graphics("pics/refcatdocu.png") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- # Inspecting the defaults --&gt;
+
+&lt;!-- ```{r} --&gt;
+&lt;!-- defaultNumericSummaries() --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- ```{r} --&gt;
+&lt;!-- defaultFactorSummaries() --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+# Built-in visual functions
+
+
+```r
+allVisualFunctions()
+
+-------------------------------------------------------------------------------
+name             description                     classes                       
+---------------- ------------------------------- ------------------------------
+basicVisual      Histograms and barplots using   character, Date, factor,      
+                 graphics                        integer, labelled,            
+                                                 haven_labelled, logical,      
+                                                 numeric                       
+
+standardVisual   Histograms and barplots using   character, Date, factor,      
+                 ggplot2                         integer, labelled,            
+                                                 haven_labelled, logical,      
+                                                 numeric                       
+
+tableVisual      Distribution tables             character, factor, labelled,  
+                                                 haven_labelled                
+-------------------------------------------------------------------------------
+```
+&lt;!-- Note: Same default for all classes (`standardVisual`). --&gt;
+
+---
+
+
+# Bulit-in check functions (1/3)
+
+
+```r
+allCheckFunctions()
+----------------------------------------------------------
+name                      description                     
+------------------------- --------------------------------
+identifyCaseIssues        Identify case issues            
+
+identifyLoners            Identify levels with &lt; 6 obs.   
+
+identifyMissing           Identify miscoded missing       
+                          values                          
+
+identifyNums              Identify misclassified numeric  
+                          or integer variables
+```
+
+---
+
+# Bulit-in check functions (2/3)
+
+
+```r
+----------------------------------------------------------
+name                      description                     
+------------------------- --------------------------------
+identifyOutliers          Identify outliers               
+
+identifyOutliersTBStyle   Identify outliers (Tukey's      
+                          Boxplot style)                  
+
+identifyWhitespace        Identify prefixed and suffixed  
+                          whitespace                      
+```
+
+---
+
+# Built-in check functions (3/3)
+
+
+```r
+----------------------------------------------------------
+name                      description                     
+------------------------- --------------------------------
+isCPR                     Identify Danish CPR numbers     
+
+isKey                     Check if the variable is a key  
+
+isSingular                Check if the variable contains  
+                          only a single value             
+
+isSupported               Check if the variable class is  
+                          supported by dataReporter.      
+----------------------------------------------------------
+```
+
+---
+
+# Having a look at the documentation
+
+
+```r
+?identifyMissing
+```
+
+&lt;img src="pics/identifymissingdocu.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Let's try an example: Report tweaking
+
+- Output an html document instead of pdf
+- Skip summaries altogether 
+- Use the `tableVisual` function for `character` variables
+- Only print up to 5 problematic values from checks 
+- Treat `Name` variables as if the were `character` variables
+- Name the report "Dirty presidents"
+- ... 
+
+---
+
+# Using dataReporter interactively 
+
+The summarize/visual/check steps can be run interactively too: 
+
+
+```r
+&gt; check(presidentData$stateOfBirth)
+
+$identifyMissing
+No problems found.
+$identifyWhitespace
+No problems found.
+$identifyLoners
+Note that the following levels have at most five observations: 
+  Arkansas, California, Connecticut, Georgia, Gondor, ..., 
+  North Carolina, Pennsylvania, Tennessee, Texas, Vermont 
+  (11 values omitted).
+$identifyCaseIssues
+Note that there might be case problems with the following 
+  levels: New york, New York.
+$identifyNums
+No problems found.
+```
+
+# More interactive use
+
+All individual summary/visual/check functions can be used interactively as well:
+
+
+```r
+&gt; identifyCaseIssues(presidentData$stateOfBirth)
+
+Note that there might be case problems with the following 
+levels: New york, New York.
+```
+
+--
+
+
+```r
+str(identifyCaseIssues(presidentData$stateOfBirth))
+```
+
+```
+## List of 3
+##  $ problem      : logi TRUE
+##  $ message      : chr "Note that there might be case problems with the following levels: \\\"New york\\\", \\\"New York\\\"."
+##  $ problemValues: chr [1:2] "New york" "New York"
+##  - attr(*, "class")= chr "checkResult"
+```
+
+---
+
+# Adding custom functions 
+
+New summary function that counts zeros:
+
+
+```r
+countZeros &lt;- function(v, ...) {
+  val &lt;- sum(na.omit(v) == 0)
+  summaryResult(list(feature = "No. zeros", 
+                     result = val, 
+                     value = val))
+}
+```
+--
+
+```r
+countZeros &lt;- summaryFunction(countZeros,
+  description = "Count number of zeros",
+  classes = c("character", "factor", "integer",
+              "labelled", "numeric"))
+```
+
+---
+
+# Custom function is now added to overview
+
+
+```r
+&gt; allSummaryFunctions()
+
+----------------------------------------------------------------------------
+name           description                     classes                      
+-------------- ------------------------------- -----------------------------
+countZeros     Count number of zeros           character, factor, integer,  
+                                               labelled, numeric            
+
+centralValue   Compute median for numeric      character, Date, factor,     
+               variables, mode for             integer, labelled,           
+               categorical variables           haven_labelled, logical,     
+                                               numeric                      
+
+countMissing   Compute proportion of missing   character, Date, factor,     
+               observations                    integer, labelled,           
+                                               haven_labelled, logical,     
+                                               numeric                      
+```
+
+---
+
+# Use custom functions interactively
+
+
+```r
+countZeros(presidentData$presidencyYears)
+```
+
+```
+## No. zeros: 2
+```
+---
+
+# Use custom functions in a report
+
+
+```r
+makeDataReport(presidentData, 
+  summaries = setSummaries(
+    numeric = defaultNumericSummaries(add = "countZeros")))
+```
+--
+&lt;img src="pics/presidencyyears5.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Further resources for dataReporter
+
+- **Article** in Journal of Statistical Software describing report making and interactive use: https://www.jstatsoft.org/article/view/v090i06 
+- Detailed **vignette** about extending `dataReporter` with custom functions: `vignette("extending_dataReporter")`
+- 3-4 hour **workshop** available: Ask for materials if you want to teach about `dataReporter` yourself - or invite us come and do it! &amp;#9786;
+
+---
+
+# Don't be a stranger
+
+Get in touch at https://github.com/ekstrom/dataReporter if you
+
+- have a bug to report
+- have a suggestion for new features
+- have written a cool summary/visual/check function
+
+or contact us at ahpe [at] sund.ku.dk (Anne) and ekstrom [at] sund.ku.dk (Claus)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"slideNumberFormat": "%current%",
+"highlightStyle": "ir-black",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
