@@ -169,6 +169,15 @@ video#videobg {
     font-size: 85%;
 }
 
+.caption-right-vertical {
+    position: absolute;
+    writing-mode: vertical-lr;
+    right: 0px;
+    bottom: 60px;
+    color: #fff;
+    font-size: 85%;
+}
+
 
 
 

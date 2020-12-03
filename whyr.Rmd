@@ -187,5 +187,6 @@ background-size: 100%
 background-image: url(pics/dr-6.png)
 background-size: 82%
 
-## Codebook result
 
+
+.caption-right-vertical[makeCodebook() result]
