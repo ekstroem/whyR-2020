@@ -600,7 +600,7 @@ knitr::include_graphics("pics/presidencyyears5.png")
 
 # Don't be a stranger
 
-Get in touch at https://github.com/ekstrom/dataReporter if you
+Get in touch at https://github.com/ekstroem/dataReporter if you
 
 - have a bug to report
 - have a suggestion for new features
