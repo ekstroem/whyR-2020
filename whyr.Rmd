@@ -164,12 +164,12 @@ background-size: 85%
 
 ---
 
-background-image: url(pics/dr-4.png)
+background-image: url(pics/dr-5.png)
 background-size: 100%
 
 ---
 
-background-image: url(pics/dr-5.png)
+background-image: url(pics/dr-4.png)
 background-size: 100%
 
 ---
