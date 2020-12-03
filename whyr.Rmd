@@ -91,31 +91,21 @@ p
 
 ---
 
-# Reproducible research
 
-What **didn't** we check?
-
---
-
-- Many studies cannot be replicated: time, money, unique
-- New technologies increase data sizes
-- Merge existing databases into megadatabases
-- Genetic data for future analyses
-
---
-
-## You are your worst collaborator.
+background-image: url(pics/flower.png)
+background-size: 60%
+class: center, middle
 
 
 ---
-
 
 # Design idea for dataReporter
 
 
 *   Aid researchers in identifying problems that we didn't consider.
 *   Ensure that everything you checked (and **didn't check**) is documented.
-*   Enable collaborations with non-statisticians.
+*   Enable **collaborations** with non-statisticians.
+*   Encourage reproducible research
 
 
 dataReporter is **not** 
