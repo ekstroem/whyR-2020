@@ -51,10 +51,10 @@ class: center
 
 ```
 ##   day1 day2 day3
-## 1   23   NA   NA
-## 2   24   NA   99
-## 3    8   11   40
-## 4   15   16    4
+## 1    4   NA   NA
+## 2   12   NA   99
+## 3   19   21   40
+## 4   13   14   16
 ```
 
 ---
@@ -66,12 +66,12 @@ class: center
 
 ```
 ##   day1 day2 day3
-## 1   23   NA   NA
-## 2   24   NA   99
-## 3    8   11   40
-## 4   15   16    4
-## 5    4    5   10
-## 6   14   88    5
+## 1    4   NA   NA
+## 2   12   NA   99
+## 3   19   21   40
+## 4   13   14   16
+## 5    8    2   19
+## 6    6   88    6
 ```
 
 ---
@@ -400,34 +400,6 @@ variableType   Data class of variable          character, Date, factor,
 
 ---
 
-&lt;!-- # Finding documentation --&gt;
-
-&lt;!-- ```{r, eval = FALSE} --&gt;
-&lt;!-- ?refCat --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- -- --&gt;
-
-&lt;!-- ```{r, echo = FALSE, fig.align="center", out.height = "70%"} --&gt;
-&lt;!-- knitr::include_graphics("pics/refcatdocu.png") --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- # Inspecting the defaults --&gt;
-
-&lt;!-- ```{r} --&gt;
-&lt;!-- defaultNumericSummaries() --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- -- --&gt;
-
-&lt;!-- ```{r} --&gt;
-&lt;!-- defaultFactorSummaries() --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- --- --&gt;
-
 # Built-in visual functions
 
 
@@ -451,12 +423,13 @@ tableVisual      Distribution tables             character, factor, labelled,
                                                  haven_labelled                
 -------------------------------------------------------------------------------
 ```
-&lt;!-- Note: Same default for all classes (`standardVisual`). --&gt;
+
+
+
 
 ---
 
-
-# Bulit-in check functions (1/3)
+# Built-in check functions (1/3)
 
 
 ```r
@@ -477,7 +450,7 @@ identifyNums              Identify misclassified numeric
 
 ---
 
-# Bulit-in check functions (2/3)
+# Built-in check functions (2/3)
 
 
 ```r
@@ -563,10 +536,10 @@ $identifyNums
 No problems found.
 ```
 
+---
+
 # More interactive use
-
 All individual summary/visual/check functions can be used interactively as well:
-
 
 ```r
 &gt; identifyCaseIssues(presidentData$stateOfBirth)
@@ -574,9 +547,7 @@ All individual summary/visual/check functions can be used interactively as well:
 Note that there might be case problems with the following 
 levels: New york, New York.
 ```
-
 --
-
 
 ```r
 str(identifyCaseIssues(presidentData$stateOfBirth))

@@ -374,34 +374,6 @@ variableType   Data class of variable          character, Date, factor,
 
 ---
 
-<!-- # Finding documentation -->
-
-<!-- ```{r, eval = FALSE} -->
-<!-- ?refCat -->
-<!-- ``` -->
-
-<!-- -- -->
-
-<!-- ```{r, echo = FALSE, fig.align="center", out.height = "70%"} -->
-<!-- knitr::include_graphics("pics/refcatdocu.png") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- # Inspecting the defaults -->
-
-<!-- ```{r} -->
-<!-- defaultNumericSummaries() -->
-<!-- ``` -->
-
-<!-- -- -->
-
-<!-- ```{r} -->
-<!-- defaultFactorSummaries() -->
-<!-- ``` -->
-
-<!-- --- -->
-
 # Built-in visual functions
 
 ```{r, eval = FALSE}
@@ -424,12 +396,13 @@ tableVisual      Distribution tables             character, factor, labelled,
                                                  haven_labelled                
 -------------------------------------------------------------------------------
 ```
-<!-- Note: Same default for all classes (`standardVisual`). -->
+
+
+
 
 ---
 
-
-# Bulit-in check functions (1/3)
+# Built-in check functions (1/3)
 
 ```{r, eval =FALSE}
 allCheckFunctions()
@@ -449,7 +422,7 @@ identifyNums              Identify misclassified numeric
 
 ---
 
-# Bulit-in check functions (2/3)
+# Built-in check functions (2/3)
 
 ```{r, eval =FALSE}
 ----------------------------------------------------------
@@ -533,19 +506,17 @@ $identifyNums
 No problems found.
 ```
 
+---
+
 # More interactive use
-
 All individual summary/visual/check functions can be used interactively as well:
-
 ```{r, eval = FALSE}
 > identifyCaseIssues(presidentData$stateOfBirth)
 
 Note that there might be case problems with the following 
 levels: New york, New York.
 ```
-
 --
-
 ```{r}
 str(identifyCaseIssues(presidentData$stateOfBirth))
 ```
